@@ -59,7 +59,7 @@ if (isset($_POST['profile_id']) && isset($_POST['first_name']) &&
     deleteEducation($pdo, $profile_id);
     insertEducation($pdo, $profile_id);
 
-    $_SESSION['success'] = 'Profile updated';
+    $_SESSION['success'] = 'Record edited';
     header('Location: view.php?profile_id=' . urlencode($profile_id));
     return;
 }

@@ -47,7 +47,7 @@ if (isset($_POST['first_name']) && isset($_POST['last_name']) &&
     insertPositions($pdo, $profile_id);
     insertEducation($pdo, $profile_id);
 
-    $_SESSION['success'] = 'Profile added';
+    $_SESSION['success'] = 'Record added';
     header('Location: index.php');
     return;
 }

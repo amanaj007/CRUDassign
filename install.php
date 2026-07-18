@@ -12,19 +12,23 @@ try {
         }
     }
 
-    $email = 'csev@umich.edu';
     $password = 'php123';
-    $hash = md5($password);
-    $name = 'Chuck Severance';
+    $hash = md5('XyZzy12*_' . $password);
 
     $stmt = $pdo->prepare('DELETE FROM users WHERE email = :em');
-    $stmt->execute(array(':em' => $email));
 
-    $stmt = $pdo->prepare('INSERT INTO users (name, email, password) VALUES (:nm, :em, :pw)');
-    $stmt->execute(array(':nm' => $name, ':em' => $email, ':pw' => $hash));
+    $users = array(
+        array('Chuck Severance', 'csev@umich.edu'),
+        array('UMSI', 'umsi@umich.edu')
+    );
+    foreach ($users as $user) {
+        $stmt->execute(array(':em' => $user[1]));
+        $stmt2 = $pdo->prepare('INSERT INTO users (name, email, password) VALUES (:nm, :em, :pw)');
+        $stmt2->execute(array(':nm' => $user[0], ':em' => $user[1], ':pw' => $hash));
+    }
 
     echo '<p>Database tables created.</p>' . "\n";
-    echo '<p>Default account: ' . htmlentities($email) . ' / ' . htmlentities($password) . '</p>' . "\n";
+    echo '<p>Default accounts: csev@umich.edu / ' . htmlentities($password) . ' and umsi@umich.edu / ' . htmlentities($password) . '</p>' . "\n";
     echo '<p><a href="index.php">Go to Index</a></p>' . "\n";
 } catch (PDOException $e) {
     echo '<p style="color:red;">Error: ' . htmlentities($e->getMessage()) . '</p>' . "\n";
