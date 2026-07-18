@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS Education;
-DROP TABLE IF EXISTS Position;
+DROP TABLE IF EXISTS osition;
 DROP TABLE IF EXISTS Profile;
 DROP TABLE IF EXISTS Institution;
 DROP TABLE IF EXISTS users;
@@ -30,16 +30,16 @@ CREATE TABLE Profile (
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE Position (
+CREATE TABLE `Position` (
     profile_id INTEGER,
-    rank INTEGER,
+    `rank` INTEGER,
     year INTEGER,
     description TEXT,
     CONSTRAINT position_ibfk_1
         FOREIGN KEY (profile_id)
         REFERENCES Profile(profile_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY(profile_id, rank)
+    PRIMARY KEY(profile_id, `rank`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE Institution (
@@ -52,7 +52,7 @@ CREATE TABLE Institution (
 CREATE TABLE Education (
     profile_id INTEGER,
     institution_id INTEGER,
-    rank INTEGER,
+    `rank` INTEGER,
     year INTEGER,
     CONSTRAINT education_ibfk_1
         FOREIGN KEY (profile_id)

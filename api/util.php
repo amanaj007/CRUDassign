@@ -116,7 +116,7 @@ function loadProfile($pdo, $profile_id)
 
 function loadPositions($pdo, $profile_id)
 {
-    $stmt = $pdo->prepare('SELECT * FROM Position WHERE profile_id = :pid ORDER BY rank');
+    $stmt = $pdo->prepare('SELECT * FROM `Position` WHERE profile_id = :pid ORDER BY `rank`');
     $stmt->execute(array(':pid' => $profile_id));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -124,9 +124,9 @@ function loadPositions($pdo, $profile_id)
 function loadEducation($pdo, $profile_id)
 {
     $stmt = $pdo->prepare(
-        'SELECT E.rank, E.year, I.name AS school ' .
+        'SELECT E.`rank`, E.year, I.name AS school ' .
         'FROM Education E JOIN Institution I ON E.institution_id = I.institution_id ' .
-        'WHERE E.profile_id = :pid ORDER BY E.rank'
+        'WHERE E.profile_id = :pid ORDER BY E.`rank`'
     );
     $stmt->execute(array(':pid' => $profile_id));
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -134,7 +134,7 @@ function loadEducation($pdo, $profile_id)
 
 function deletePositions($pdo, $profile_id)
 {
-    $stmt = $pdo->prepare('DELETE FROM Position WHERE profile_id = :pid');
+    $stmt = $pdo->prepare('DELETE FROM `Position` WHERE profile_id = :pid');
     $stmt->execute(array(':pid' => $profile_id));
 }
 
@@ -157,7 +157,7 @@ function insertPositions($pdo, $profile_id)
             continue;
         }
         $stmt = $pdo->prepare(
-            'INSERT INTO Position (profile_id, rank, year, description) ' .
+            'INSERT INTO `Position` (`profile_id`, `rank`, `year`, `description`) ' .
             'VALUES (:pid, :rank, :year, :desc)'
         );
         $stmt->execute(
@@ -197,7 +197,7 @@ function insertEducation($pdo, $profile_id)
         }
 
         $stmt = $pdo->prepare(
-            'INSERT INTO Education (profile_id, institution_id, rank, year) ' .
+            'INSERT INTO `Education` (`profile_id`, `institution_id`, `rank`, `year`) ' .
             'VALUES (:pid, :iid, :rank, :year)'
         );
         $stmt->execute(

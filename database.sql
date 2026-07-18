@@ -52,7 +52,7 @@ CREATE TABLE Institution (
 CREATE TABLE Education (
     profile_id INTEGER,
     institution_id INTEGER,
-    rank INTEGER,
+    `rank` INTEGER,
     year INTEGER,
     CONSTRAINT education_ibfk_1
         FOREIGN KEY (profile_id)
