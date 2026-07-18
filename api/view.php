@@ -4,14 +4,14 @@ require_once 'util.php';
 if (!isset($_GET['profile_id'])) {
     $_SESSION['error'] = 'Missing profile_id';
     header('Location: index.php');
-    return;
+    exit();
 }
 
 $profile = loadProfile($pdo, $_GET['profile_id']);
 if ($profile === false) {
     $_SESSION['error'] = 'Profile not found';
     header('Location: index.php');
-    return;
+    exit();
 }
 
 $positions = loadPositions($pdo, $profile['profile_id']);

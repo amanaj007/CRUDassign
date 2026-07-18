@@ -10,21 +10,21 @@ if (isset($_POST['first_name']) && isset($_POST['last_name']) &&
     if ($msg !== true) {
         $_SESSION['error'] = $msg;
         header('Location: add.php');
-        return;
+        exit();
     }
 
     $msg = validatePositions();
     if ($msg !== true) {
         $_SESSION['error'] = $msg;
         header('Location: add.php');
-        return;
+        exit();
     }
 
     $msg = validateEducation();
     if ($msg !== true) {
         $_SESSION['error'] = $msg;
         header('Location: add.php');
-        return;
+        exit();
     }
 
     $stmt = $pdo->prepare(
@@ -49,7 +49,7 @@ if (isset($_POST['first_name']) && isset($_POST['last_name']) &&
 
     $_SESSION['success'] = 'Record added';
     header('Location: index.php');
-    return;
+    exit();
 }
 
 headHtml('Add Profile - ' . STUDENT_NAME);

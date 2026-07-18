@@ -5,19 +5,19 @@ requireLogin();
 if (!isset($_GET['profile_id'])) {
     $_SESSION['error'] = 'Missing profile_id';
     header('Location: index.php');
-    return;
+    exit();
 }
 
 $profile = loadProfile($pdo, $_GET['profile_id']);
 if ($profile === false) {
     $_SESSION['error'] = 'Profile not found';
     header('Location: index.php');
-    return;
+    exit();
 }
 if ($profile['user_id'] != $_SESSION['user_id']) {
     $_SESSION['error'] = 'ACCESS DENIED';
     header('Location: index.php');
-    return;
+    exit();
 }
 
 if (isset($_POST['delete'])) {
@@ -25,7 +25,7 @@ if (isset($_POST['delete'])) {
     $stmt->execute(array(':pid' => $_GET['profile_id']));
     $_SESSION['success'] = 'Profile deleted';
     header('Location: index.php');
-    return;
+    exit();
 }
 
 headHtml('Delete Profile - ' . STUDENT_NAME);

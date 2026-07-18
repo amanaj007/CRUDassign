@@ -12,28 +12,28 @@ if (isset($_POST['profile_id']) && isset($_POST['first_name']) &&
     if ($profile === false || $profile['user_id'] != $_SESSION['user_id']) {
         $_SESSION['error'] = 'ACCESS DENIED';
         header('Location: index.php');
-        return;
+        exit();
     }
 
     $msg = validateProfile();
     if ($msg !== true) {
         $_SESSION['error'] = $msg;
         header('Location: edit.php?profile_id=' . urlencode($profile_id));
-        return;
+        exit();
     }
 
     $msg = validatePositions();
     if ($msg !== true) {
         $_SESSION['error'] = $msg;
         header('Location: edit.php?profile_id=' . urlencode($profile_id));
-        return;
+        exit();
     }
 
     $msg = validateEducation();
     if ($msg !== true) {
         $_SESSION['error'] = $msg;
         header('Location: edit.php?profile_id=' . urlencode($profile_id));
-        return;
+        exit();
     }
 
     $stmt = $pdo->prepare(
@@ -61,25 +61,25 @@ if (isset($_POST['profile_id']) && isset($_POST['first_name']) &&
 
     $_SESSION['success'] = 'Record edited';
     header('Location: view.php?profile_id=' . urlencode($profile_id));
-    return;
+    exit();
 }
 
 if (!isset($_GET['profile_id'])) {
     $_SESSION['error'] = 'Missing profile_id';
     header('Location: index.php');
-    return;
+    exit();
 }
 
 $profile = loadProfile($pdo, $_GET['profile_id']);
 if ($profile === false) {
     $_SESSION['error'] = 'Profile not found';
     header('Location: index.php');
-    return;
+    exit();
 }
 if ($profile['user_id'] != $_SESSION['user_id']) {
     $_SESSION['error'] = 'ACCESS DENIED';
     header('Location: index.php');
-    return;
+    exit();
 }
 
 $positions = loadPositions($pdo, $profile['profile_id']);

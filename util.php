@@ -56,6 +56,9 @@ class PdoSessionHandler implements SessionHandlerInterface
 
 $sessionHandler = new PdoSessionHandler($pdo);
 session_set_save_handler($sessionHandler, true);
+
+$secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
+session_set_cookie_params(array('path' => '/', 'secure' => $secure, 'samesite' => 'Lax'));
 session_start();
 
 function headHtml($title)

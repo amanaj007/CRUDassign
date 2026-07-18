@@ -5,7 +5,7 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
     if (strlen($_POST['email']) < 1 || strlen($_POST['pass']) < 1) {
         $_SESSION['error'] = 'User name and password are required';
         header('Location: login.php');
-        return;
+        exit();
     }
 
     $stmt = $pdo->prepare('SELECT user_id, name, password FROM users WHERE email = :em');
@@ -15,11 +15,11 @@ if (isset($_POST['email']) && isset($_POST['pass'])) {
         $_SESSION['user_id'] = $row['user_id'];
         $_SESSION['name'] = $row['name'];
         header('Location: index.php');
-        return;
+        exit();
     } else {
         $_SESSION['error'] = 'Incorrect password';
         header('Location: login.php');
-        return;
+        exit();
     }
 }
 
