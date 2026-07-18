@@ -1,8 +1,9 @@
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS Education;
-DROP TABLE IF EXISTS Position;
+DROP TABLE IF EXISTS `Position`;
 DROP TABLE IF EXISTS Profile;
 DROP TABLE IF EXISTS Institution;
+DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS users;
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -14,6 +15,19 @@ CREATE TABLE users (
     PRIMARY KEY(user_id),
     UNIQUE(email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE sessions (
+    id VARCHAR(128) NOT NULL,
+    data TEXT,
+    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO users (name, email, password)
+VALUES ('Chuck Severance', 'csev@umich.edu', '1a52e17fa899cf40fb04cfc42e6352f1');
+
+INSERT INTO users (name, email, password)
+VALUES ('UMSI', 'umsi@umich.edu', '1a52e17fa899cf40fb04cfc42e6352f1');
 
 CREATE TABLE Profile (
     profile_id INTEGER NOT NULL AUTO_INCREMENT,
@@ -30,16 +44,16 @@ CREATE TABLE Profile (
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE Position (
+CREATE TABLE `Position` (
     profile_id INTEGER,
-    rank INTEGER,
+    `rank` INTEGER,
     year INTEGER,
     description TEXT,
     CONSTRAINT position_ibfk_1
         FOREIGN KEY (profile_id)
         REFERENCES Profile (profile_id)
         ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY(profile_id, rank)
+    PRIMARY KEY(profile_id, `rank`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE Institution (

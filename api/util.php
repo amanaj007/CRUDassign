@@ -1,6 +1,62 @@
 <?php
-session_start();
 require_once 'pdo.php';
+
+class PdoSessionHandler implements SessionHandlerInterface
+{
+    private $pdo;
+
+    public function __construct($pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
+    public function open($savePath, $sessionName): bool
+    {
+        return true;
+    }
+
+    public function close(): bool
+    {
+        return true;
+    }
+
+    public function read($id): string
+    {
+        $stmt = $this->pdo->prepare('SELECT data FROM sessions WHERE id = :id');
+        $stmt->execute(array(':id' => $id));
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return ($row !== false && isset($row['data'])) ? $row['data'] : '';
+    }
+
+    public function write($id, $data): bool
+    {
+        $stmt = $this->pdo->prepare(
+            'REPLACE INTO sessions (id, data, ts) VALUES (:id, :data, NOW())'
+        );
+        $stmt->execute(array(':id' => $id, ':data' => $data));
+        return true;
+    }
+
+    public function destroy($id): bool
+    {
+        $stmt = $this->pdo->prepare('DELETE FROM sessions WHERE id = :id');
+        $stmt->execute(array(':id' => $id));
+        return true;
+    }
+
+    public function gc($maxlifetime): bool
+    {
+        $stmt = $this->pdo->prepare(
+            'DELETE FROM sessions WHERE ts < DATE_SUB(NOW(), INTERVAL :sec SECOND)'
+        );
+        $stmt->execute(array(':sec' => $maxlifetime));
+        return true;
+    }
+}
+
+$sessionHandler = new PdoSessionHandler($pdo);
+session_set_save_handler($sessionHandler, true);
+session_start();
 
 function headHtml($title)
 {
