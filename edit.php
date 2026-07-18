@@ -60,7 +60,7 @@ if (isset($_POST['profile_id']) && isset($_POST['first_name']) &&
     insertEducation($pdo, $profile_id);
 
     $_SESSION['success'] = 'Record edited';
-    header('Location: view.php?profile_id=' . urlencode($profile_id));
+    header('Location: index.php');
     exit();
 }
 
