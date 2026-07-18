@@ -12,10 +12,10 @@ try {
         }
     }
 
-    $email = 'admin@example.com';
+    $email = 'csev@umich.edu';
     $password = 'php123';
-    $hash = password_hash($password, PASSWORD_DEFAULT);
-    $name = 'Administrator';
+    $hash = md5($password);
+    $name = 'Chuck Severance';
 
     $stmt = $pdo->prepare('DELETE FROM users WHERE email = :em');
     $stmt->execute(array(':em' => $email));
