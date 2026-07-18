@@ -6,4 +6,4 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 
 // Replace with your name for the <title> tag requirement.
-define('STUDENT_NAME', 'Your Name');
+define('STUDENT_NAME', 'Aman');

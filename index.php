@@ -49,7 +49,7 @@ if (isset($_SESSION['name'])) {
 <?php if (isset($_SESSION['user_id'])): ?>
     <p><a href="logout.php" class="btn btn-default">Logout</a></p>
 <?php else: ?>
-    <p><a href="login.php" class="btn btn-default">Login</a></p>
+    <p><a href="login.php" class="btn btn-default">Please log in</a></p>
 <?php endif; ?>
 
 <?php
