@@ -59,6 +59,20 @@ class PdoSessionHandler implements SessionHandlerInterface
 $sessionHandler = new PdoSessionHandler($pdo);
 session_set_save_handler($sessionHandler, true);
 
+// Make sure the database-backed sessions table exists.
+try {
+    $pdo->exec(
+        "CREATE TABLE IF NOT EXISTS sessions (" .
+        "id VARCHAR(128) NOT NULL, " .
+        "data TEXT, " .
+        "ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, " .
+        "PRIMARY KEY(id)" .
+        ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4"
+    );
+} catch (PDOException $e) {
+    // ignore; schema.sql should create it
+}
+
 $secure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off');
 session_set_cookie_params(array('path' => '/', 'secure' => $secure, 'samesite' => 'Lax'));
 session_start();
