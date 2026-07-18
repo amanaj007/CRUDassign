@@ -1,4 +1,6 @@
 <?php
+require_once 'config.php';
+
 $dsn = getenv('DB_DSN');
 $user = getenv('DB_USER');
 $pass = getenv('DB_PASSWORD');
