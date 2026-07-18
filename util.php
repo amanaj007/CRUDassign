@@ -44,13 +44,15 @@ class PdoSessionHandler implements SessionHandlerInterface
         return true;
     }
 
-    public function gc($maxlifetime): bool
+    public function gc(int $maxlifetime): int|false
     {
         $stmt = $this->pdo->prepare(
             'DELETE FROM sessions WHERE ts < DATE_SUB(NOW(), INTERVAL :sec SECOND)'
         );
-        $stmt->execute(array(':sec' => $maxlifetime));
-        return true;
+        if (!$stmt->execute(array(':sec' => $maxlifetime))) {
+            return false;
+        }
+        return $stmt->rowCount();
     }
 }
 
